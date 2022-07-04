@@ -1,0 +1,18 @@
+version: "3"
+services:
+  database-cp-mysql:
+    image: mysql:8.0.17
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - 3306:3306
+
+  database-cp-mysql-m159:
+    image: mysql:m159
+    restart: always
+    command: mysqld
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - 3306:3306
