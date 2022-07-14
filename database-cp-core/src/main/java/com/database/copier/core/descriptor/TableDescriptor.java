@@ -14,9 +14,6 @@ public class TableDescriptor {
 	private List<ForeignKey> foreignKeysToParents = new ArrayList<>();
 	private List<ForeignKey> foreignKeysToChildren = new ArrayList<>();
 
-	public TableDescriptor() {
-	}
-
 	public void addColumn(String column, String type) {
 		columns.add(column);
 		columnTypes.put(column, type);
