@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import com.database.copier.core.descriptor.ForeignKey;
 import com.database.copier.core.descriptor.TableDescriptor;
@@ -57,9 +56,21 @@ public class DataCopier {
     }
 
     private void processTable(String idColumn, List<String> columns, Map<String, Object> values, String schema, String table, StringBuilder sb) {
-        sb.append("INSERT INTO ").append(schema).append(".").append(table).append(" (").append(columns.stream().collect(Collectors.joining(", ")))
+        sb.append("INSERT INTO ").append(schema).append(".").append(table).append(" (").append(joinColumns(columns))
                 .append(") VALUES (").append(joinValues(columns, values)).append(") ON DUPLICATE KEY UPDATE ").append(idColumn).append(" = ").append(idColumn)
                 .append(";\n");
+        log.info(sb.toString());
+    }
+
+    private static String joinColumns(List<String> columns) {
+        StringBuilder sb = new StringBuilder();
+        for (String column : columns) {
+            if (sb.length() > 0) {
+                sb.append(", ");
+            }
+            sb.append('`').append(column).append('`');
+        }
+        return sb.toString();
     }
 
     private void processChildTables(TableDescriptor tableDescriptor, Map<String, Object> values, StringBuilder output, DataCopierContext context)
@@ -130,6 +141,9 @@ public class DataCopier {
             if (value != null) {
                 if (value instanceof Boolean) {
                     sb.append(value);
+                } else if (value instanceof String) {
+                    value = ((String) value).replace("'", "''");
+                    sb.append("'").append(value).append("'");
                 } else {
                     sb.append("'").append(value).append("'");
                 }

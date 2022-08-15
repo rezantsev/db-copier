@@ -56,6 +56,7 @@ public class DbCopierCli {
             }
 
             Connection connection = getConnection(line.getOptionValue(dOption), line.getOptionValue(uOption), line.getOptionValue(pOption));
+            log.info("Start copying records from: {}", line.getOptionValue(dOption));
             copyRecord(connection, line.getOptionValue(sOption), line.getOptionValue(tOption), line.getOptionValue(cOption),
                     line.getOptionValue(vOption), line.getOptionValues(fkOption), line.getOptionValue(fOption));
 
