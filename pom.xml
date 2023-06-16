@@ -9,6 +9,7 @@
 
 	<modules>
 		<module>db-copier-core</module>
+		<module>db-copier-cli</module>
 	</modules>
 
 	<dependencyManagement>
